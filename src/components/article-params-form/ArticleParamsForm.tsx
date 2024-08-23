@@ -24,31 +24,31 @@ import {
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 
 type ArticleParamsFormProps = {
-	setAppState: (state: ArticleStateType) => void;
+	setArticalState: (state: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = (props: ArticleParamsFormProps) => {
-	const { setAppState } = props;
+	const { setArticalState } = props;
 
 	const rootRef = useRef<HTMLDivElement>(null);
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formState, setFormState] = useState(defaultArticleState);
 
 	const toggleForm = () => {
-		setIsOpen(!isOpen);
+		setIsMenuOpen(!isMenuOpen);
 	};
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setAppState(formState);
-		setIsOpen(false);
+		setArticalState(formState);
+		setIsMenuOpen(false);
 	};
 
 	const handleReset = () => {
 		setFormState(defaultArticleState);
-		setAppState(defaultArticleState);
-		setIsOpen(false);
+		setArticalState(defaultArticleState);
+		setIsMenuOpen(false);
 	};
 
 	const handleChange = (key: keyof ArticleStateType, value: OptionType) => {
@@ -56,18 +56,18 @@ export const ArticleParamsForm = (props: ArticleParamsFormProps) => {
 	};
 
 	useOutsideClickClose({
-		isOpen,
+		isOpen: isMenuOpen,
 		rootRef,
-		onClose: () => setIsOpen(false),
-		onChange: setIsOpen,
+		onClose: () => setIsMenuOpen(false),
+		onChange: setIsMenuOpen,
 		event: 'mousedown',
 	});
 
 	return (
 		<div ref={rootRef}>
-			<ArrowButton isOpen={isOpen} onClick={toggleForm} />
+			<ArrowButton isOpen={isMenuOpen} onClick={toggleForm} />
 			<aside
-				className={clsx(styles.container, isOpen && styles.container_open)}>
+				className={clsx(styles.container, isMenuOpen && styles.container_open)}>
 				<form
 					className={styles.form}
 					onSubmit={handleSubmit}
